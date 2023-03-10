@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "225458434660",
+    "project_id": "ecommerceapp-f3175",
+    "storage_bucket": "ecommerceapp-f3175.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225458434660:android:97e8ba7136b2e3e8ef6571",
+        "android_client_info": {
+          "package_name": "nlu.edu.vn.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225458434660-t0v1o2m87qbk4c4dta9p9l43emq9r4i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMheFvCwceeUadRmpuBLnlGpgHOpqj8kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225458434660-t0v1o2m87qbk4c4dta9p9l43emq9r4i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
