@@ -1,4 +1,4 @@
-package nlu.edu.vn.ecommerce.activity;
+package nlu.edu.vn.ecommerce.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,9 +1,10 @@
-package nlu.edu.vn.ecommerce.activity;
+package nlu.edu.vn.ecommerce.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText txtPassword;
     private Button btnRegister;
     private FirebaseAuth auth;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                finish();
             }
         });
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +93,16 @@ public class RegisterActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        sharedPreferences = getSharedPreferences("onBoardingScreen",MODE_PRIVATE);
+        boolean isFirstTime = sharedPreferences.getBoolean("firstTime",true);
+        if(isFirstTime){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstTime",false);
+            editor.commit();
+            Intent intent = new Intent(RegisterActivity.this,OnBoardingActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
