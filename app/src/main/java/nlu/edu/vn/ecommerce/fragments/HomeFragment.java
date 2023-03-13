@@ -26,11 +26,19 @@ import java.util.List;
 
 import nlu.edu.vn.ecommerce.R;
 import nlu.edu.vn.ecommerce.adapters.CategoryAdapter;
+import nlu.edu.vn.ecommerce.adapters.NewProductAdapter;
 import nlu.edu.vn.ecommerce.models.CategoryModel;
+import nlu.edu.vn.ecommerce.models.NewProductModel;
 
 
 public class HomeFragment extends Fragment {
+
     private RecyclerView categoryRecyclerView;
+    //new product recyclerview
+    private RecyclerView newProductRecyclerView;
+    private List<NewProductModel> newProductModels;
+    private NewProductAdapter newProductAdapter;
+
     // Category recyclerview
     private CategoryAdapter categoryAdapter;
     private List<CategoryModel> categoryModels;
@@ -57,8 +65,8 @@ public class HomeFragment extends Fragment {
 
         imageSlider.setImageList(slideModels);
 
+        // Category recyclerview
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
-        categoryModels = new ArrayList<>();
         categoryAdapter = new CategoryAdapter(getContext(),categoryModels);
         categoryRecyclerView.setAdapter(categoryAdapter);
         db.collection("Category")
@@ -78,12 +86,37 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+        //New Product recyclerview
+        newProductRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        newProductAdapter = new NewProductAdapter(getContext(),newProductModels);
+        newProductRecyclerView.setAdapter(newProductAdapter);
+        db.collection("NewProducts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                NewProductModel newProductModel = document.toObject(NewProductModel.class);
+                                newProductModels.add(newProductModel);
+                                newProductAdapter.notifyDataSetChanged();
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+
         return root;
     }
 
     private void mapping( View root) {
         db = FirebaseFirestore.getInstance();
         categoryRecyclerView = root.findViewById(R.id.rec_category);
-
+        newProductRecyclerView = root.findViewById(R.id.new_product_rec);
+        categoryModels = new ArrayList<>();
+        newProductModels = new ArrayList<>();
     }
 }
