@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 
 import nlu.edu.vn.ecommerce.R;
 import nlu.edu.vn.ecommerce.models.NewProductModel;
+import nlu.edu.vn.ecommerce.models.PopularProductModel;
 
 public class DetailActivity extends AppCompatActivity {
     private ImageView detailImage;
@@ -25,6 +26,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView btnPlus;
     private ImageView btnRemove;
     private NewProductModel newProductModel = null;
+    private PopularProductModel popularProductModel= null;
     private FirebaseFirestore firebaseFirestore;
 
 
@@ -36,10 +38,25 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         mapping();
         final Object obj = getIntent().getSerializableExtra("detailed");
+        final  Object objPopularProduct = getIntent().getSerializableExtra("popularDetailed");
+        if(objPopularProduct instanceof PopularProductModel){
+            popularProductModel = (PopularProductModel) objPopularProduct;
+
+        }
         if(obj instanceof NewProductModel){
             newProductModel = (NewProductModel) obj;
 
         }
+        if(popularProductModel != null){
+            Glide.with(getApplicationContext()).load(popularProductModel.getImg_url()).into(detailImage);
+            name.setText(popularProductModel.getName());
+            description.setText(popularProductModel.getDescription());
+            rating.setText(popularProductModel.getRating());
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+            int priceFormat = popularProductModel.getPrice();
+            price.setText(decimalFormat.format(priceFormat)+ "đ");
+        }
+
         if(newProductModel != null){
             Glide.with(getApplicationContext()).load(newProductModel.getImg_url()).into(detailImage);
             name.setText(newProductModel.getName());
