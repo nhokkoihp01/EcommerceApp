@@ -1,6 +1,8 @@
 package nlu.edu.vn.ecommerce.models;
 
-public class NewProductModel {
+import java.io.Serializable;
+
+public class NewProductModel implements Serializable {
     private String img_url;
     private String description;
     private String name;

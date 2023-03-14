@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.DetailActivity">
@@ -64,6 +65,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -110,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:fontFamily="@font/amethysta"
-                    android:text="Price: "
+                    android:text="Giá: "
                     android:textSize="24sp"
                     android:textStyle="bold"
                     tools:ignore="DuplicateIds" />
@@ -180,13 +182,12 @@
         android:textSize="20sp"
         android:backgroundTint="@color/blue"
         android:layout_height="wrap_content"
-        android:drawableTint="@color/pink"
         android:text="Mua ngay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.8"
-        android:drawableLeft="@drawable/icon_buy"
+        android:drawableLeft="@drawable/icon_cart2"
         app:layout_constraintTop_toBottomOf="@+id/btn_add_cart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
