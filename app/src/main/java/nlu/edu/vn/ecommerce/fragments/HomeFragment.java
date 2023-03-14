@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,8 +31,10 @@ import java.util.List;
 import nlu.edu.vn.ecommerce.R;
 import nlu.edu.vn.ecommerce.adapters.CategoryAdapter;
 import nlu.edu.vn.ecommerce.adapters.NewProductAdapter;
+import nlu.edu.vn.ecommerce.adapters.PopularProductAdapter;
 import nlu.edu.vn.ecommerce.models.CategoryModel;
 import nlu.edu.vn.ecommerce.models.NewProductModel;
+import nlu.edu.vn.ecommerce.models.PopularProductModel;
 
 
 public class HomeFragment extends Fragment {
@@ -43,6 +46,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView newProductRecyclerView;
     private List<NewProductModel> newProductModels;
     private NewProductAdapter newProductAdapter;
+    // popular product recyclerview
+    private RecyclerView popularProductRecyclerView;
+    private List<PopularProductModel> popularProductModels;
+    private PopularProductAdapter popularProductAdapter;
 
     // Category recyclerview
     private CategoryAdapter categoryAdapter;
@@ -121,6 +128,29 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+        //Popular Product recyclerview
+        popularProductRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        popularProductAdapter = new PopularProductAdapter(getContext(),popularProductModels);
+        popularProductRecyclerView.setAdapter(popularProductAdapter);
+        db.collection("PopularProduct")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                PopularProductModel popularProductModel = document.toObject(PopularProductModel.class);
+                                popularProductModels.add(popularProductModel);
+                                popularProductAdapter.notifyDataSetChanged();
+
+                            }
+                        } else {
+                            Toast.makeText(getActivity(),"" + task.getException(),Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
 
 
         return root;
@@ -131,8 +161,10 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         categoryRecyclerView = root.findViewById(R.id.rec_category);
         newProductRecyclerView = root.findViewById(R.id.new_product_rec);
+        popularProductRecyclerView = root.findViewById(R.id.popular_rec);
         homeLinerLayout = root.findViewById(R.id.home_layout);
         categoryModels = new ArrayList<>();
         newProductModels = new ArrayList<>();
+        popularProductModels = new ArrayList<>();
     }
 }

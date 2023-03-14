@@ -2,15 +2,17 @@ package nlu.edu.vn.ecommerce.models;
 
 import java.io.Serializable;
 
-public class NewProductModel implements Serializable {
+public class PopularProductModel implements Serializable {
     private String img_url;
     private String description;
     private String name;
     private int price;
     private String rating;
-    public NewProductModel (){}
 
-    public NewProductModel(String img_url, String description, String name, int price, String rating) {
+    public PopularProductModel() {
+    }
+
+    public PopularProductModel(String img_url, String description, String name, int price, String rating) {
         this.img_url = img_url;
         this.description = description;
         this.name = name;
