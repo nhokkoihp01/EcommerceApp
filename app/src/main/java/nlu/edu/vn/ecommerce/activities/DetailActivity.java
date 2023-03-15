@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DecimalFormat;
 
 import nlu.edu.vn.ecommerce.R;
+import nlu.edu.vn.ecommerce.models.AllProductModel;
 import nlu.edu.vn.ecommerce.models.NewProductModel;
 import nlu.edu.vn.ecommerce.models.PopularProductModel;
 
@@ -26,10 +27,9 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView btnPlus;
     private ImageView btnRemove;
     private NewProductModel newProductModel = null;
-    private PopularProductModel popularProductModel= null;
+    private PopularProductModel popularProductModel = null;
+    private AllProductModel allProductModel = null;
     private FirebaseFirestore firebaseFirestore;
-
-
 
 
     @Override
@@ -38,33 +38,48 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         mapping();
         final Object obj = getIntent().getSerializableExtra("detailed");
-        final  Object objPopularProduct = getIntent().getSerializableExtra("popularDetailed");
-        if(objPopularProduct instanceof PopularProductModel){
+        final Object objPopularProduct = getIntent().getSerializableExtra("popularDetailed");
+        final Object objAllProduct = getIntent().getSerializableExtra("allProduct");
+
+        if (objAllProduct instanceof AllProductModel) {
+            allProductModel = (AllProductModel) objAllProduct;
+
+        }
+        if (objPopularProduct instanceof PopularProductModel) {
             popularProductModel = (PopularProductModel) objPopularProduct;
 
         }
-        if(obj instanceof NewProductModel){
+        if (obj instanceof NewProductModel) {
             newProductModel = (NewProductModel) obj;
 
         }
-        if(popularProductModel != null){
+        if (allProductModel != null) {
+            Glide.with(getApplicationContext()).load(allProductModel.getImg_url()).into(detailImage);
+            name.setText(allProductModel.getName());
+            description.setText(allProductModel.getDescription());
+            rating.setText(allProductModel.getRating());
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+            int priceFormat = allProductModel.getPrice();
+            price.setText(decimalFormat.format(priceFormat) + "đ");
+        }
+        if (popularProductModel != null) {
             Glide.with(getApplicationContext()).load(popularProductModel.getImg_url()).into(detailImage);
             name.setText(popularProductModel.getName());
             description.setText(popularProductModel.getDescription());
             rating.setText(popularProductModel.getRating());
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             int priceFormat = popularProductModel.getPrice();
-            price.setText(decimalFormat.format(priceFormat)+ "đ");
+            price.setText(decimalFormat.format(priceFormat) + "đ");
         }
 
-        if(newProductModel != null){
+        if (newProductModel != null) {
             Glide.with(getApplicationContext()).load(newProductModel.getImg_url()).into(detailImage);
             name.setText(newProductModel.getName());
             description.setText(newProductModel.getDescription());
             rating.setText(newProductModel.getRating());
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             int priceFormat = newProductModel.getPrice();
-            price.setText(decimalFormat.format(priceFormat)+ "đ");
+            price.setText(decimalFormat.format(priceFormat) + "đ");
         }
     }
 

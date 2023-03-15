@@ -1,6 +1,7 @@
 package nlu.edu.vn.ecommerce.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nlu.edu.vn.ecommerce.R;
+import nlu.edu.vn.ecommerce.activities.AllProductActivity;
 import nlu.edu.vn.ecommerce.adapters.CategoryAdapter;
 import nlu.edu.vn.ecommerce.adapters.NewProductAdapter;
 import nlu.edu.vn.ecommerce.adapters.PopularProductAdapter;
@@ -56,6 +59,9 @@ public class HomeFragment extends Fragment {
     private List<CategoryModel> categoryModels;
     // fireStore
     private FirebaseFirestore db;
+    private TextView categoryShowAll;
+    private TextView popularShowAll;
+    private TextView newProductShowAll;
 
 
     public HomeFragment() {
@@ -150,6 +156,28 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+        categoryShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AllProductActivity.class);
+                startActivity(intent);
+            }
+        });
+        newProductShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AllProductActivity.class);
+                startActivity(intent);
+            }
+        });
+        popularShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AllProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 
@@ -159,10 +187,15 @@ public class HomeFragment extends Fragment {
     private void mapping( View root) {
         progressDialog = new ProgressDialog(getActivity());
         db = FirebaseFirestore.getInstance();
+
         categoryRecyclerView = root.findViewById(R.id.rec_category);
         newProductRecyclerView = root.findViewById(R.id.new_product_rec);
         popularProductRecyclerView = root.findViewById(R.id.popular_rec);
         homeLinerLayout = root.findViewById(R.id.home_layout);
+        categoryShowAll = root.findViewById(R.id.category_see_all);
+        newProductShowAll = root.findViewById(R.id.newProducts_see_all);
+        popularShowAll = root.findViewById(R.id.popular_see_all);
+
         categoryModels = new ArrayList<>();
         newProductModels = new ArrayList<>();
         popularProductModels = new ArrayList<>();
