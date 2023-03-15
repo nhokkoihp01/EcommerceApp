@@ -2,6 +2,7 @@ package nlu.edu.vn.ecommerce.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -31,15 +32,19 @@ import nlu.edu.vn.ecommerce.models.NewProductModel;
 import nlu.edu.vn.ecommerce.models.PopularProductModel;
 
 public class DetailActivity extends AppCompatActivity {
+    private int totalQuantity = 1;
+    private int totalPrice = 0;
     private ImageView detailImage;
     private TextView description;
     private TextView name;
     private TextView rating;
+    private TextView quantity;
     private TextView price;
     private ImageView btnPlus;
     private ImageView btnRemove;
     private Button btnAddCart;
     private Button btnBuy;
+    private Toolbar detailedToolbar;
     private NewProductModel newProductModel = null;
     private PopularProductModel popularProductModel = null;
     private AllProductModel allProductModel = null;
@@ -52,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         mapping();
+        actionBar();
         final Object obj = getIntent().getSerializableExtra("detailed");
         final Object objPopularProduct = getIntent().getSerializableExtra("popularDetailed");
         final Object objAllProduct = getIntent().getSerializableExtra("allProduct");
@@ -76,6 +82,8 @@ public class DetailActivity extends AppCompatActivity {
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             int priceFormat = allProductModel.getPrice();
             price.setText(decimalFormat.format(priceFormat) + "đ");
+
+            totalPrice = allProductModel.getPrice() * totalQuantity;
         }
         if (popularProductModel != null) {
             Glide.with(getApplicationContext()).load(popularProductModel.getImg_url()).into(detailImage);
@@ -85,6 +93,8 @@ public class DetailActivity extends AppCompatActivity {
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             int priceFormat = popularProductModel.getPrice();
             price.setText(decimalFormat.format(priceFormat) + "đ");
+
+            totalPrice = popularProductModel.getPrice() * totalQuantity;
         }
 
         if (newProductModel != null) {
@@ -95,6 +105,8 @@ public class DetailActivity extends AppCompatActivity {
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
             int priceFormat = newProductModel.getPrice();
             price.setText(decimalFormat.format(priceFormat) + "đ");
+
+            totalPrice = newProductModel.getPrice() * totalQuantity;
         }
         btnAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +114,41 @@ public class DetailActivity extends AppCompatActivity {
                 addToCart();
             }
         });
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (totalQuantity < 10) {
+                    totalQuantity++;
+                    quantity.setText(String.valueOf(totalQuantity));
+                    if(newProductModel != null){
+                        totalPrice = newProductModel.getPrice() * totalQuantity;
+                    }
+                    if(popularProductModel != null){
+                        totalPrice = popularProductModel.getPrice() * totalQuantity;
+                    }
+                    if(allProductModel != null){
+                        totalPrice = allProductModel.getPrice() * totalQuantity;
+                    }
+
+                }
+
+            }
+        });
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (totalQuantity > 1) {
+                    totalQuantity--;
+                    quantity.setText(String.valueOf(totalQuantity));
+                }
+            }
+        });
+    }
+
+    private void actionBar() {
+        setSupportActionBar(detailedToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void addToCart() {
@@ -115,11 +162,13 @@ public class DetailActivity extends AppCompatActivity {
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
-        final HashMap<String,Object> cartMap = new HashMap<>();
-        cartMap.put("productName",name.getText().toString());
-        cartMap.put("productPrice",price.getText().toString());
-        cartMap.put("currentTime",saveCurrentTime);
-        cartMap.put("currentDate",saveCurrentDate);
+        final HashMap<String, Object> cartMap = new HashMap<>();
+        cartMap.put("productName", name.getText().toString());
+        cartMap.put("productPrice", price.getText().toString());
+        cartMap.put("totalQuantity",quantity.getText().toString());
+        cartMap.put("totalPrice",totalPrice);
+        cartMap.put("currentTime", saveCurrentTime);
+        cartMap.put("currentDate", saveCurrentDate);
 
         firebaseFirestore.collection("AddToCart")
                 .document(auth.getCurrentUser().getUid())
@@ -127,11 +176,10 @@ public class DetailActivity extends AppCompatActivity {
                 .add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(DetailActivity.this,"Add to a cart",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "Add to a cart", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
-
 
 
 
@@ -141,11 +189,13 @@ public class DetailActivity extends AppCompatActivity {
     private void mapping() {
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        detailedToolbar = findViewById(R.id.detailed_toolbar);
         detailImage = findViewById(R.id.detail_img);
         description = findViewById(R.id.detail_description);
         name = findViewById(R.id.detail_name);
         rating = findViewById(R.id.rating);
         price = findViewById(R.id.price);
+        quantity = findViewById(R.id.quantity);
         btnPlus = findViewById(R.id.btn_plus);
         btnRemove = findViewById(R.id.btn_subtract);
         btnAddCart = findViewById(R.id.btn_add_cart);

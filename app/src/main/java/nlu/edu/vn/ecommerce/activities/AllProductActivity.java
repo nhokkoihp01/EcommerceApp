@@ -2,6 +2,7 @@ package nlu.edu.vn.ecommerce.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import nlu.edu.vn.ecommerce.models.AllProductModel;
 
 
 public class AllProductActivity extends AppCompatActivity {
+    private Toolbar allProductToolbar;
     private RecyclerView allProductRecyclerView;
     private AllProductAdapter allProductAdapter;
     private List<AllProductModel> allProductModels;
@@ -34,6 +36,7 @@ public class AllProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_product);
         mapping();
+        actionBar();
         String type = getIntent().getStringExtra("type");
 
         allProductRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -106,9 +109,15 @@ public class AllProductActivity extends AppCompatActivity {
 
     }
 
+    private void actionBar() {
+        setSupportActionBar(allProductToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     private void mapping() {
         db = FirebaseFirestore.getInstance();
         allProductRecyclerView = findViewById(R.id.all_product_rec);
+        allProductToolbar = findViewById(R.id.allProductToolbar);
 
         allProductModels = new ArrayList<>();
     }
