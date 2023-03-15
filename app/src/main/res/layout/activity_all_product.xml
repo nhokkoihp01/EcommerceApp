@@ -2,30 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="6dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AllProductActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/amethysta"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:background="#8ff7fd"
+        android:theme="?android:attr/actionBarTheme"
+        android:id="@+id/allProductToolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tất cả sản phẩm"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="40dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Tất cả sản phẩm" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_product_rec"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/allProductToolbar"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
