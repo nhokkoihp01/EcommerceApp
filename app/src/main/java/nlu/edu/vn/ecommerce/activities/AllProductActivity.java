@@ -34,27 +34,74 @@ public class AllProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_product);
         mapping();
+        String type = getIntent().getStringExtra("type");
+
         allProductRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         allProductAdapter = new AllProductAdapter(this,allProductModels);
         allProductRecyclerView.setAdapter(allProductAdapter);
-        db.collection("AllProduct")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                AllProductModel allProductModel = document.toObject(AllProductModel.class);
-                                allProductModels.add(allProductModel);
-                                allProductAdapter.notifyDataSetChanged();
+
+        if(type == null || type.isEmpty()){
+            db.collection("AllProduct")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    AllProductModel allProductModel = document.toObject(AllProductModel.class);
+                                    allProductModels.add(allProductModel);
+                                    allProductAdapter.notifyDataSetChanged();
+
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),"" + task.getException(),Toast.LENGTH_SHORT).show();
 
                             }
-                        } else {
-                            Toast.makeText(getApplicationContext(),"" + task.getException(),Toast.LENGTH_SHORT).show();
-
                         }
-                    }
-                });
+                    });
+        }
+        if(type != null && type.equalsIgnoreCase("smart_phone")){
+            db.collection("AllProduct")
+                    .whereEqualTo("type","smart_phone")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    AllProductModel allProductModel = document.toObject(AllProductModel.class);
+                                    allProductModels.add(allProductModel);
+                                    allProductAdapter.notifyDataSetChanged();
+
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),"" + task.getException(),Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+        }
+        if(type != null && type.equalsIgnoreCase("style_female")){
+            db.collection("AllProduct")
+                    .whereEqualTo("type","style_female")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    AllProductModel allProductModel = document.toObject(AllProductModel.class);
+                                    allProductModels.add(allProductModel);
+                                    allProductAdapter.notifyDataSetChanged();
+
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),"" + task.getException(),Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+        }
 
 
     }
