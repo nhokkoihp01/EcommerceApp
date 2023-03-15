@@ -1,6 +1,8 @@
 package nlu.edu.vn.ecommerce.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import nlu.edu.vn.ecommerce.R;
+import nlu.edu.vn.ecommerce.activities.AllProductActivity;
 import nlu.edu.vn.ecommerce.models.CategoryModel;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
@@ -33,9 +36,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(categories.get(position).getImg_url()).into(holder.catImg);
         holder.catName.setText(categories.get(position).getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AllProductActivity.class);
+                intent.putExtra("type",categories.get(position).getType());
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
