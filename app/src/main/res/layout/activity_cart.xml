@@ -27,7 +27,7 @@
         android:fontFamily="@font/amethysta"
         android:gravity="center"
         android:padding="18dp"
-        android:text="Tổng tiền: 21.000.000"
+        android:text="Tổng tiền: 0đ"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
