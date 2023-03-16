@@ -24,7 +24,10 @@ import java.util.List;
 import nlu.edu.vn.ecommerce.R;
 import nlu.edu.vn.ecommerce.adapters.AddressAdapter;
 import nlu.edu.vn.ecommerce.models.AddressModel;
+import nlu.edu.vn.ecommerce.models.AllProductModel;
 import nlu.edu.vn.ecommerce.models.CartModel;
+import nlu.edu.vn.ecommerce.models.NewProductModel;
+import nlu.edu.vn.ecommerce.models.PopularProductModel;
 
 public class AddressActivity extends AppCompatActivity implements AddressAdapter.SelectedAddress {
     private Toolbar addressToolbar;
@@ -44,6 +47,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         setContentView(R.layout.activity_address);
         mapping();
         actionBar();
+        //get data from detailed activity
+        Object obj = getIntent().getSerializableExtra("item");
         addressRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         addressAdapter = new AddressAdapter(getApplicationContext(), addressModelList, this);
         addressRecyclerView.setAdapter(addressAdapter);
@@ -71,8 +76,22 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         btnChoosePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddressActivity.this, PaymentActivity.class));
-
+                double amount = 0.0;
+                if(obj instanceof NewProductModel){
+                    NewProductModel newProductModel = (NewProductModel) obj;
+                    amount = newProductModel.getPrice();
+                }
+                if(obj instanceof PopularProductModel){
+                    PopularProductModel popularProductModel = (PopularProductModel) obj;
+                    amount = popularProductModel.getPrice();
+                }
+                if(obj instanceof AllProductModel){
+                    AllProductModel allProductModel = (AllProductModel) obj;
+                    amount = allProductModel.getPrice();
+                }
+                Intent intent = new Intent(AddressActivity.this,PaymentActivity.class);
+                intent.putExtra("amount",amount);
+                startActivity(intent);
             }
         });
     }
