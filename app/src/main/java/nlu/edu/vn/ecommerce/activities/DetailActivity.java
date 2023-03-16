@@ -147,7 +147,18 @@ public class DetailActivity extends AppCompatActivity {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(DetailActivity.this,AddressActivity.class));
+                Intent intent = new Intent(DetailActivity.this,AddressActivity.class);
+                if(newProductModel != null){
+                    intent.putExtra("item",newProductModel);
+                }
+                if(popularProductModel != null){
+                    intent.putExtra("item",popularProductModel);
+                }
+                if(allProductModel != null){
+                    intent.putExtra("item",allProductModel);
+                }
+                startActivity(intent);
+
             }
         });
     }
@@ -155,6 +166,12 @@ public class DetailActivity extends AppCompatActivity {
     private void actionBar() {
         setSupportActionBar(detailedToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        detailedToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -112,6 +113,12 @@ public class AllProductActivity extends AppCompatActivity {
     private void actionBar() {
         setSupportActionBar(allProductToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        allProductToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void mapping() {

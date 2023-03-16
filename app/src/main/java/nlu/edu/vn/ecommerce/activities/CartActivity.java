@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -84,6 +85,12 @@ public class CartActivity extends AppCompatActivity {
     private void actionBar() {
         setSupportActionBar(cartToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        cartToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void mapping() {
