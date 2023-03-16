@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -141,6 +142,12 @@ public class DetailActivity extends AppCompatActivity {
                     totalQuantity--;
                     quantity.setText(String.valueOf(totalQuantity));
                 }
+            }
+        });
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               startActivity(new Intent(DetailActivity.this,AddressActivity.class));
             }
         });
     }
