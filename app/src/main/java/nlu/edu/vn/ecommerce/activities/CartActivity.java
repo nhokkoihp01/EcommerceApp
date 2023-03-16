@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +40,7 @@ public class CartActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private TextView overAllAMount;
+    private Button btnBuyNow;
     private int overAllTotalAmount;
 
     @Override
@@ -69,6 +71,12 @@ public class CartActivity extends AppCompatActivity {
                         }
                     }
                 });
+        btnBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CartActivity.this,PaymentActivity.class));
+            }
+        });
 
     }
 
@@ -99,6 +107,7 @@ public class CartActivity extends AppCompatActivity {
         cartToolbar = findViewById(R.id.cart_toolbar);
         cartRecyclerView = findViewById(R.id.cart_rec);
         overAllAMount = findViewById(R.id.total_amount_price);
+        btnBuyNow = findViewById(R.id.buy_now);
         cartModelList = new ArrayList<>();
 
     }
